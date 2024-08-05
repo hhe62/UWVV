@@ -2,10 +2,10 @@
 
 # Documentation on Run 2 UL Processing
 
-## Upgrading to Run 2 UL
-The UWVV codes are originally for processing pre-legacy Run 2 samples and creating ntuples. To upgrade the codes to process Run 2 UL samples while keeping the original working codes for pre-legacy, as a temporary solution, UL versions are created for certain files, and they replace the original files during initial setup for UL (see setup instructions below). The main reference for upgrading to UL is the PdmV receipe: https://twiki.cern.ch/twiki/bin/view/CMS/PdmVRun2LegacyAnalysis
+## Updating to Run 2 UL
+The UWVV codes are originally for processing pre-legacy Run 2 samples and creating ntuples. To update the codes to process Run 2 UL samples while keeping the original working codes for pre-legacy, as a temporary solution, UL versions are created for certain files, and they replace the original files during initial setup for UL (see setup instructions below). The main reference for updating to UL is the PdmV receipe: https://twiki.cern.ch/twiki/bin/view/CMS/PdmVRun2LegacyAnalysis
 
-### Upgrades that have been done so far:
+### Updates that have been done so far:
 
 1. **Muon ID:** \
 We are no longer able to use the Muon MVA from HZZ group designed for pre-legacy (used for 2018 in pre-legacy) as it gives errors with higher CMSSW release. Currently for all three years the UL muon ID is set to use vertex+kinematic+type requirements + PF muon or high pt muon (used for 2016 and 2017 in pre-legacy). To see the muon IDs that actually get used among the ones stored in the ntuple, refer to ZZSelector codes (can be different muon ID names in different years).\
@@ -55,13 +55,13 @@ Again the main reference to check is the [PdmV receipe](https://twiki.cern.ch/tw
 
 2. Jet related contents still need to be reviewed and updated, in particular JEC, JER and Pileup Jet ID in the PdmV corrections list.
 
-3. Modifying the codes to use the appropriate names/tags for 2016 preVFP/postVFP samples. As discussed in the list of upgraded items above, during processing, currently preVFP/postVFP is only determined from global tag, which works for MC but not data. Need to maybe pass some other variable into processing to provide this information for data. Also will need to handle/combine the two eras properly in later processing and plotting.
+3. Modifying the codes to use the appropriate names/tags for 2016 preVFP/postVFP samples. As discussed in the list of updated items above, during processing, currently preVFP/postVFP is only determined from global tag, which works for MC but not data. Need to maybe pass some other variable into processing to provide this information for data. Also will need to handle/combine the two eras properly in later processing and plotting.
 
 4. Keeping datasets, global tags, lumi, golden json files etc. up to date according to UL Run 2 recommendations. Since the recommendations may be updated from time to time, we may need to confirm with relevant experts the most up-to-date recommendations. For example, we see alternative /DoubleMuon/Run2018 datasets in this [table](https://pdmv-pages.web.cern.ch/rereco_ul/full_table.html?miniaod_dataset=miniaodv2&nanoaod_dataset=!JME&aod_dataset=15Feb2022) (BParking vs GT36 which we currently use, but the alternative one may not be the preferred one). As discussed above, the golden json files in config.Data.lumiMask for the 3 years need to be updated to UL golden json file names if not already (see the [lumi information page](https://twiki.cern.ch/twiki/bin/view/CMS/LumiRecommendationsRun2)).
    
 5. Pileup and trigger are in tbc status in PdmV page, not sure.
 
-6. Maybe verify additional items such as the two concerns and MET filter mentioned in the list of upgraded items above. 
+6. Maybe verify additional items such as the two concerns and MET filter mentioned in the list of updated items above. 
 
 ## Setup
 

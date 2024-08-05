@@ -111,6 +111,45 @@ and this will copy the corresponding UL config to local.txt, and print out a lis
  ./crabSubmit.sh [path to]/MC2016.dat  2016UL|. /dev/stdin
 ```
 
+In the crab.py file, we can either use\
+\
+config.Data.splitting = 'Automatic'\
+config.Data.unitsPerJob = someNumber\
+\
+or\
+\
+config.Data.splitting = 'FileBased'\
+config.Data.unitsPerJob = 1\
+\
+Previously I encountered an issue in processing pre-legacy 2018 data using Automatic where it gave wrong impression on the amount of data not processed, so personally I think it may be safer to use FileBased.
+
+After some processing time, we can use the latest version of this [script](https://github.com/hhe62/UWVV/blob/master/Utilities/scripts/check_crab_status.py) to check the crab status for all the CRAB project folders together:
+
+The usage is written at the beginning of the script. We can create a folder and put all the CRAB project directories and the script into the folder, and run 
+
+```
+python check_crab_status.py
+```
+
+Then can look at the status summary in status_info.txt.
+
+Currently it only reads up to 3 lines of status for each dataset for compactness, e.g.:
+
+<pre>
+crab_UWVVNtuples18_19Jul2023_DoubleMuon_Run2018A-UL2018_MiniAODv2_GT36-v1:
+Jobs status:           failed                   13.9% ( 142/1022)
+                       finished                 86.0% ( 879/1022)
+                       running                   0.1% (   1/1022)
+</pre>
+
+so if there is a fourth line (e.g. "transferring" in addition to "failed","finished","running") it won't show up, but for purpose of determining the job status after sufficient processing time has passed, this should be good enough.
+
+If there are failed jobs, the script will create a resubmission script. After making sure everything is ready (e.g. number of finished and failed jobs sum up to total, no "running" or "transferring" in the third line of status), we can run the resubmission script. It can take several resubmission until all the failed jobs disappear (or there can sometimes be persistent ones.)
+
+If we use --report option, it will also run "crab report -d" on all CRAB directories, and we can look at all the printouts using e.g. cat output_crab_status_data/*.log.
+
+(In my case, I had one job still showing running status for a long time, and it may need some retry if it doesn't work out.)
+
 ## Local Test
 
 In the Ntuplizer/test directory, modify the cmsRun config file ntuplize_cfg_UL.py to include the source root file, and run
